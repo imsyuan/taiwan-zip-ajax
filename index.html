@@ -1,9 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-Hi
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Ajax N Json</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+      $("#selectCity").change(function(event) {
+        /* Act on the event */
+        var cityvalue = this.value;
+        $.ajax({
+          url: 'http://api.inow.tw/cities',
+          type: 'GET',
+          dataType: 'json',
+          data: {city: cityvalue},
+          success:function(data){
+            var html = '';
+            $.each(data, function( index, value ){
+              $.each(value.towns, function(index, el) {
+                html+='<option>'+el+'</optin>'
+              });
+            })
+            $('#selectTown').empty().append(html);
+          }
+        })
+        .done(function() {
+          console.log("success");
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
+        
+      });
+    });
+    </script>
+  </head>
+  <body>
+    <h1>Ajax N Json</h1>
+    <select id="selectCity">
+      <option value="台北市">台北市</option>
+      <option value="新北市">新北市</option>
+      <option value="台中市">台中市</option>
+      <option value="彰化縣">彰化縣</option>
+      </select>
+    <select id="selectTown">
+       <option value="中山區">中山區</option>
+       <option value="大安區">大安區</option>
+       <option value="內湖區">內湖區</option>
+    </select>
+
+
+  </body>
 </html>
+
